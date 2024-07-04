@@ -639,4 +639,4 @@ Temporary Items
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,visualstudio,dotenv,dotnetcore,csharp
-obj/Debug/
+obj/Debug/*
