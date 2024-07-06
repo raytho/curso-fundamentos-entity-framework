@@ -22,7 +22,8 @@ public class TareasContext : DbContext
             tarea.Property(t => t.Titulo).IsRequired().HasMaxLength(150);
             tarea.Property(t => t.Descripcion);
             tarea.Property(t => t.PrioridadTarea);
-            tarea.Property(t => t.FechaCreacion); 
+            tarea.Property(t => t.FechaCreacion);
+            tarea.Ignore(t => t.Resumen);
         });
 
         builder.Entity<Categoria>(categoria =>
