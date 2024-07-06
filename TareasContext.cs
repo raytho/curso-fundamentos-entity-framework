@@ -16,11 +16,13 @@ public class TareasContext : DbContext
         {
             tarea.ToTable("Tarea");
             tarea.HasKey(t => t.TareaId);
-            tarea.HasAlternateKey(t => t.CategoriaId);
+            
+            tarea.HasOne(t => t.Categoria).WithMany(t => t.Tareas).HasForeignKey(t => t.CategoriaId);
 
             tarea.Property(t => t.Titulo).IsRequired().HasMaxLength(150);
             tarea.Property(t => t.Descripcion);
-            tarea.Property(t => t.FechaCreacion);
+            tarea.Property(t => t.PrioridadTarea);
+            tarea.Property(t => t.FechaCreacion); 
         });
 
         builder.Entity<Categoria>(categoria =>
