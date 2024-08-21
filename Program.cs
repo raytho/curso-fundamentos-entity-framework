@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using proyectoef;
@@ -37,6 +38,25 @@ app.MapPost("/api/tareas", async ([FromServices] TareasContext dbContext, [FromB
     await dbContext.AddAsync(tarea);
     await dbContext.SaveChangesAsync();
     return Results.Ok();
+});
+
+app.MapPut("/api/tareas/{tareaId}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid tareaId) =>
+{
+    var currentTarea = dbContext.Tareas.Find(tareaId);
+    
+    if (currentTarea != null)
+    {
+        currentTarea.CategoriaId = tarea.CategoriaId;
+        currentTarea.Titulo = tarea.Titulo;
+        currentTarea.PrioridadTarea = tarea.PrioridadTarea;
+        currentTarea.Descripcion = tarea.Descripcion;
+
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok();
+    }    
+    
+    return Results.NotFound();
 });
 
 app.Run();
