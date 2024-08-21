@@ -18,7 +18,14 @@ app.MapGet("/dbconnection", async ([FromServices] TareasContext dbContext) =>
 });
 
 app.MapGet("/api/tareas", async ([FromServices] TareasContext dbContext) => {
-    return Results.Ok(dbContext.Tareas.Include(p => p.Categoria).Where(p => p.PrioridadTarea == proyectoef.Models.Prioridad.Baja));
+    return Results.Ok(dbContext.Tareas
+            .Include(p => p.Categoria)
+            .Where(p => p.PrioridadTarea == proyectoef.Models.Prioridad.Baja));
+});
+
+app.MapGet("/api/categorias", ([FromServices] TareasContext dbContext) =>
+{
+    return Results.Ok(dbContext.Categorias.Where(c => c.Peso >= 20));
 });
 
 app.Run();
