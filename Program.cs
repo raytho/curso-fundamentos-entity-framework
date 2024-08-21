@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using proyectoef;
+using proyectoef.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,16 @@ app.MapGet("/api/tareas", async ([FromServices] TareasContext dbContext) => {
 app.MapGet("/api/categorias", ([FromServices] TareasContext dbContext) =>
 {
     return Results.Ok(dbContext.Categorias.Where(c => c.Peso >= 20));
+});
+
+app.MapPost("/api/tareas", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea) =>
+{
+    tarea.TareaId = Guid.NewGuid();
+    tarea.FechaCreacion = DateTime.Now;
+
+    await dbContext.AddAsync(tarea);
+    await dbContext.SaveChangesAsync();
+    return Results.Ok();
 });
 
 app.Run();
